@@ -4566,20 +4566,44 @@
              \csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}}}}}
 
 \newrobustcmd*{\mkbibrangetrunc}[2]{%
-  \iffieldundef{#2year}
-    {}
-    {\printtext[#2date]{%
-       \iffieldsequal{#2year}{#2endyear}
-         {\iffieldsequal{#2month}{#2endmonth}
-            {\csuse{mkbibdate#1}{}{}{#2day}}
-            {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
-         {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
-       \iffieldundef{#2endyear}
-         {}
-         {\iffieldequalstr{#2endyear}{}
-            {\mbox{\bibdatedash}}
-            {\bibdatedash
-             \csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}}}}}
+  \ifboolexpr{%
+    test {\iffieldundef{#2year}}%
+    and%
+    test {\iffieldundef{#2month}}%
+  }
+  {}
+  {\printtext[#2date]{%
+      \ifboolexpr{%
+        test {\iffieldsequal{#2year}{#2endyear}}%
+        or%
+        (test {\iffieldundef{#2year}} and test {\iffieldundef{#2endyear}})%
+      }%
+      {\iffieldsequal{#2month}{#2endmonth}%
+        {\csuse{mkbibdate#1}{}{}{#2day}}%
+        {\csuse{mkbibdate#1}{}{#2month}{#2day}}%
+      }%
+      {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
+      \ifboolexpr{%
+        test {\iffieldundef{#2endyear}}%
+        and%
+        test {\iffieldundef{#2endmonth}}%
+      }%
+        {}%
+        {\iffieldequalstr{#2endyear}{}%
+          {\mbox{\bibdatedash}}%
+          {\bibdatedash%
+            \ifboolexpr{%
+              test {\iffieldsequal{#2year}{#2endyear}}%
+              or%
+              test {\iffieldundef{#2endyear}}%
+            }%
+              {\csuse{mkbibdate#1}{#2year}{#2endmonth}{#2endday}}%
+              {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}%
+          }%
+        }%
+      }%
+  }%
+}
 
 \newrobustcmd*{\mkbibrangefullextra}[2]{%
   \iffieldundef{#2year}
@@ -4598,24 +4622,52 @@
                \printfield{extrayear}}}}}}}
 
 \newrobustcmd*{\mkbibrangetruncextra}[2]{%
-  \iffieldundef{#2year}
-    {}
-    {\printtext[#2date]{%
-       \printtext{%
-         \iffieldsequal{#2year}{#2endyear}
-           {\iffieldsequal{#2month}{#2endmonth}
-              {\csuse{mkbibdate#1}{}{}{#2day}}
-              {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
-           {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}}%
-       \iffieldundef{#2endyear}
-         {\printfield{extrayear}}
-         {\iffieldequalstr{#2endyear}{}
-            {\printfield{extrayear}%
-             \printtext{\mbox{\bibdatedash}}}
-            {\printtext{%
-               \bibdatedash
-               \csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}%
-               \printfield{extrayear}}}}}}}
+  \ifboolexpr{%
+    test {\iffieldundef{#2year}}%
+    and%
+    test {\iffieldundef{#2month}}%
+  }
+  {}
+  {\printtext[#2date]{%
+      \ifboolexpr{%
+        test {\iffieldsequal{#2year}{#2endyear}}%
+        or%
+        (test {\iffieldundef{#2year}} and test {\iffieldundef{#2endyear}})%
+      }%
+      {\iffieldsequal{#2month}{#2endmonth}%
+        {\csuse{mkbibdate#1}{}{}{#2day}}%
+        {\csuse{mkbibdate#1}{}{#2month}{#2day}}%
+      }%
+      {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
+      \ifboolexpr{%
+        test {\iffieldundef{#2endyear}}%
+        and%
+        test {\iffieldundef{#2endmonth}}%
+      }%
+        {\iffieldundef{#2year}{}{\printfield{extrayear}}}%
+        {\iffieldequalstr{#2endyear}{}%
+          {\iffieldundef{#2year}{{}\printfield{extrayear}}%
+            \mbox{\bibdatedash}}%
+          {\bibdatedash%
+            \ifboolexpr{%
+              test {\iffieldsequal{#2year}{#2endyear}}%
+              or%
+              test {\iffieldundef{#2endyear}}%
+            }%
+              {\csuse{mkbibdate#1}{#2year}{#2endmonth}{#2endday}}%
+              {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}%
+            \ifboolexpr{%
+              test {\iffieldundef{#2year}}%
+              and%
+              test {\iffieldundef{#2endyear}}%
+            }%
+              {}%
+              {\printfield{extrayear}}%
+          }%
+        }%
+      }%
+  }%
+}
 
 \newrobustcmd*{\mkbibrangeyear}[1]{%
   \blx@imc@clearfield{#1month}%
