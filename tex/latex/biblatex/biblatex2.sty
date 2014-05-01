@@ -4571,18 +4571,17 @@
     and%
     test {\iffieldundef{#2month}}%
   }
-  {}
-  {\printtext[#2date]{%
+    {}
+    {\printtext[#2date]{%
       \ifboolexpr{%
         test {\iffieldsequal{#2year}{#2endyear}}%
         or%
         (test {\iffieldundef{#2year}} and test {\iffieldundef{#2endyear}})%
       }%
-      {\iffieldsequal{#2month}{#2endmonth}%
-        {\csuse{mkbibdate#1}{}{}{#2day}}%
-        {\csuse{mkbibdate#1}{}{#2month}{#2day}}%
-      }%
-      {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
+        {\iffieldsequal{#2month}{#2endmonth}%
+          {\csuse{mkbibdate#1}{}{}{#2day}}%
+          {\csuse{mkbibdate#1}{}{#2month}{#2day}}}%
+        {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
       \ifboolexpr{%
         test {\iffieldundef{#2endyear}}%
         and%
@@ -4598,12 +4597,7 @@
               test {\iffieldundef{#2endyear}}%
             }%
               {\csuse{mkbibdate#1}{#2year}{#2endmonth}{#2endday}}%
-              {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}%
-          }%
-        }%
-      }%
-  }%
-}
+              {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}}}}}}
 
 \newrobustcmd*{\mkbibrangefullextra}[2]{%
   \iffieldundef{#2year}
@@ -4627,18 +4621,17 @@
     and%
     test {\iffieldundef{#2month}}%
   }
-  {}
-  {\printtext[#2date]{%
+    {}
+    {\printtext[#2date]{%
       \ifboolexpr{%
         test {\iffieldsequal{#2year}{#2endyear}}%
         or%
         (test {\iffieldundef{#2year}} and test {\iffieldundef{#2endyear}})%
       }%
-      {\iffieldsequal{#2month}{#2endmonth}%
-        {\csuse{mkbibdate#1}{}{}{#2day}}%
-        {\csuse{mkbibdate#1}{}{#2month}{#2day}}%
-      }%
-      {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
+        {\iffieldsequal{#2month}{#2endmonth}%
+          {\csuse{mkbibdate#1}{}{}{#2day}}%
+          {\csuse{mkbibdate#1}{}{#2month}{#2day}}}%
+        {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}}%
       \ifboolexpr{%
         test {\iffieldundef{#2endyear}}%
         and%
@@ -4662,12 +4655,7 @@
               test {\iffieldundef{#2endyear}}%
             }%
               {}%
-              {\printfield{extrayear}}%
-          }%
-        }%
-      }%
-  }%
-}
+              {\printfield{extrayear}}}}}}}
 
 \newrobustcmd*{\mkbibrangeyear}[1]{%
   \blx@imc@clearfield{#1month}%
